@@ -1,0 +1,1 @@
+## Os 10 bits que representam a operação 'ACC <- 36' do Rudi são:
