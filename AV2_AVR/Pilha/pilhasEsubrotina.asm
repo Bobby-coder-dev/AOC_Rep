@@ -38,7 +38,13 @@ soma32bits:
     PUSH R0
     
     CLC
-    LDI R16, 4
+
+    LD R0, X+
+    LD R1, Y+
+    ADD R0, R1
+    ST Z+, R0
+
+    LDI R16, 3
     loop_soma:
 	LD R0, X+
 	LD R1, Y+
