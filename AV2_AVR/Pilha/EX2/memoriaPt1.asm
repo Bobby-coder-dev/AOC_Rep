@@ -26,6 +26,9 @@ init_32bits:
     ST X+, R19
     RET
 zera_32bits:
+    PUSH R16
+    PUSH R17 
+
     LDI R16, 0
 
     LDI R17, 4
@@ -33,6 +36,9 @@ zera_32bits:
         ST X+, R16
         DEC R17
         BRNE loop_zero
+
+    POP R17
+    POP R16
     RET
 sub_32bits:
     PUSH R0

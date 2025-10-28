@@ -48,7 +48,7 @@ soma32bits:
     loop_soma:
 	LD R0, X+
 	LD R1, Y+
-	ADD R0, R1
+	ADC R0, R1
 	ST Z+, R0
 
 	DEC R16
