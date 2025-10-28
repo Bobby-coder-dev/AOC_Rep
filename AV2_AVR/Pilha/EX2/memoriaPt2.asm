@@ -9,6 +9,8 @@ start:
     LDI XH, HIGH(V0)
     LDI YL, LOW(V1)
     LDI YH, HIGH(V1)
+    LDI ZL, LOW(VR)
+    LDI ZH, HIGH(VR)
 
     LDI R16, 10
     LDI R17, 20
@@ -33,21 +35,17 @@ subrot_soma:
     IN R0, SREG
     PUSH R0
 
+    LDI R16, 10
     CLC
 
-    LD R0, X+
-    LD R1, Y+
-    ADD R0, R1
-    ST Z+, R0
-
-    LDI R16, 9
     loop_soma:
         LD R0, X+
         LD R1, Y+
         ADC R0, R1
         ST Z+, R0
         DEC R16
-        BRNE loop_soma:
+        BRNE loop_soma
+
     POP R0
     OUT SREG, R0
     POP R1

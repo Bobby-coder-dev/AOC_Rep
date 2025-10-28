@@ -12,8 +12,12 @@ start:
     LDI ZL, LOW(C)
     LDI ZH, HIGH(C)
 
+    rcall init_32bits
+
     rcall sub_32bits
 
+    rcall zera_32bits
+    
     rjmp start
 init_32bits:
     ST X+, R16
