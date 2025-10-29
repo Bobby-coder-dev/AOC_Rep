@@ -1,3 +1,13 @@
+;Faça um código assembly que execute as seguintes operações:
+
+;Declare três vetores com 8 posições de 8 bits (A1, A2 e A3) e um vetor de 3 posições de 8 bits (A4).
+;Dica: utilize .DSEG e ".BYTE 8"
+
+;-----Inicialize os vetores A2 e A3 com os valores de 1 até 8.
+;Dica: utilize endereçamento indireto com pós incremento.
+;Dica: Utilize um loop com 8 iterações.
+
+
 .DSEG
 .ORG SRAM_START
 
@@ -24,6 +34,11 @@ loop:
   BRNE loop
 
 ; SOMA 2
+
+;-----Some a primeira posição do A2 com a última do A3 e armazene na primeira do A1. Faça isso sucessivamente até que todas as posições sejam operadas.
+;Dica: utilize endereçamento indireto com pós incremento para acessar o A1 e o A2 e endereçamento indireto com pré decremento para acessar o A3.
+;Dica: Utilize um loop com 8 iterações.
+
   LDI XL, LOW(A1)
   LDI XH, HIGH(A1)
   LDI YL, LOW(A2)
@@ -41,6 +56,10 @@ loop2:
   BRNE loop2
 
 ; SOMA 3
+;----Some A2(1) e A3(4), A2(2) e A3(3), A2(6) e A3(7) e salve consecutivamente no A4.
+;Dica: utilize endereçamento indireto com deslocamento para acessar o A2 e o A3 e endereçamento indireto com pós incremento para acessar o A4.
+;Dica: Não utilize loop.
+
   LDI XL, LOW(A4)
   LDI XH, HIGH(A4)
   LDI YL, LOW(A2)
