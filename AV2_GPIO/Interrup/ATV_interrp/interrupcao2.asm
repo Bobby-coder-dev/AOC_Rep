@@ -55,7 +55,7 @@ isr_int0:
 ; Rotina que atende o botão OFF
 ;====================================
 isr_int1:
-    SBI PORTB, L2
+    SBI PORTB, L1
     reti
     
 ;------------------------------------------------------------
