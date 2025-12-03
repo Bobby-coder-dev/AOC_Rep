@@ -1,8 +1,9 @@
 .equ AJUSTE = PD2
 .equ LED = PB5
-.def contador = R20
-.def intervalo = R21
-
+.DSEG
+.ORG SRAM_START
+    INTERVALO: .BYTE 1
+    CONTAGEM:  .BYTE 1 
 .CSEG
 .ORG 0x0000 ;endereço 0
     rjmp setup
@@ -17,45 +18,60 @@
 setup:
     ;definindo pino de saida
     SBI DDRB, LED 
+    CBI PORTB, LED
     ;definindo pino de entrada (botao)
     CBI DDRD, AJUSTE
     SBI PORTD, AJUSTE
 
+    ;configurando int0
+    LDI R16, 0b0000_0010
+    STS EICRA, R16
+    SBI EIMSK, INT0
+    
     ;configurando tc0b
     LDI R16, 0b00000101
     OUT TCCR0B, R16
     LDI R16, 1
     STS TIMSK0, R16
 
-    ;configurando int0
-    LDI R16, 0b00000010
-    STS EICRA, R16
-    SBI EIMSK, INT0
-
-    LDI intervalo, 62 ;definindo valor inicial de intervalo
-
+    ;inicializar intervalo
+    LDI R16, 62
+    STS intervalo, R16
+    
     SEI
+    
 main:
     rjmp main
 
 isr_tc0b:
+    ;SALVA CONTEXTO
     PUSH R16
+    PUSH R17
     IN R16, SREG
     PUSH R16
 
-    inc contador
-    cp contador, intervalo
-    brne fim_tcb
-    sbi pinb, LED
-
-    ldi contador, 0
-    fim_tcb:
+    LDS R16, contagem
+    INC R16
+    
+    LDS R17, intervalo
+    
+    cp R16, R17
+    BRNE fim
+    SBI PINB, LED
+    
+    LDI R16, 0
+fim:
+    STS contagem, R16
+    
+    ;RESTAURA CONTEXTO
     POP R16
-    OUT SREG R16
+    OUT SREG, R16
+    POP R17
     POP R16
     RETI
 
 isr_int0:
+    ;SALVA CONTEXTO
     PUSH R16
     IN R16, SREG
     PUSH R16
@@ -70,6 +86,6 @@ isr_int0:
     ldi contador, 0
 
     POP R16
-    OUT SREG R16
+    OUT SREG, R16
     POP R16
     RETI
