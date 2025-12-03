@@ -61,11 +61,14 @@ isr_int0:
     PUSH R16
 
     cpi intervalo, 14 ; minimo 200ms [62 (1s)->50(800ms)->38(600ms)->26(400ms)->14(200ms)]
-    brne fim_int0
-    subi intervalo, 12
+    breq rst_valor
+    subi intervalo, 12 ; diminuição de 12 aproximadamente 200ms sendo 62 1seg
+    rjmp fim_int0
+    rst_valor:
+    ldi intervalo, 62
+    fim_int0:
     ldi contador, 0
 
-    fim_int0:
     POP R16
     OUT SREG R16
     POP R16
